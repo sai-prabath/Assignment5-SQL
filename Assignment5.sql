@@ -122,4 +122,62 @@ SELECT * FROM Customer WHERE phone_number LIKE '%000';
 SELECT * FROM Event WHERE total_seats > 15000;
 SELECT * FROM Event WHERE event_name NOT LIKE 'x%' AND event_name NOT LIKE 'y%' AND event_name NOT LIKE 'z%'; 
 
+--1
+SELECT event_id, event_name, AVG(ticket_price) AS avg_ticket_price FROM Event GROUP BY event_id, event_name;
+--2
+SELECT SUM(total_cost) AS total_revenue FROM Booking;
+--3
+SELECT event_id, SUM(num_tickets) AS total_tickets_sold, SUM(total_cost) AS total_revenue FROM Booking GROUP BY event_id ORDER BY total_tickets_sold DESC, total_revenue DESC LIMIT 1;
+--4
+SELECT event_id, SUM(num_tickets) AS total_tickets_sold FROM Booking GROUP BY event_id;
+--5
+SELECT event_id, event_name FROM Event WHERE event_id NOT IN (SELECT event_id FROM Booking);
+--6
+SELECT customer_id, SUM(num_tickets) AS total_tickets_booked
+FROM Booking
+GROUP BY customer_id
+HAVING SUM(num_tickets) = (
+    SELECT MAX(total_tickets)
+    FROM (
+        SELECT SUM(num_tickets) AS total_tickets
+        FROM Booking
+        GROUP BY customer_id
+    ) AS subquery
+);
+--7
+SELECT event_id,MONTH(booking_date) AS month, COUNT(*) AS total_tickets_sold FROM Booking GROUP BY event_id,MONTH(booking_date);
+--8
+SELECT venue_id, AVG(ticket_price) AS avg_ticket_price FROM Event GROUP BY venue_id;
+--9
+SELECT event_type, SUM(num_tickets) AS total_tickets_sold
+FROM Event
+JOIN Booking ON Event.event_id = Booking.event_id
+GROUP BY event_type;
+--10
+SELECT YEAR(event_date) AS year, SUM(total_cost) AS total_revenue
+FROM Booking
+GROUP BY YEAR(event_date);
+
+--11
+SELECT customer_id
+FROM Booking
+GROUP BY customer_id
+HAVING COUNT(DISTINCT event_id) > 1;
+
+--12
+SELECT customer_id, SUM(total_cost) AS total_revenue_generated
+FROM Booking
+GROUP BY customer_id;
+
+--13
+SELECT event_type, venue_id, AVG(ticket_price) AS avg_ticket_price
+FROM Event
+GROUP BY event_type, venue_id;
+
+--14
+SELECT customer_id, COUNT(*) AS total_tickets_purchased_last_30_days
+FROM Booking
+WHERE booking_date >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)
+GROUP BY customer_id;
+
 
