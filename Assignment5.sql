@@ -181,3 +181,105 @@ WHERE booking_date >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)
 GROUP BY customer_id;
 
 
+--1
+SELECT v.venue_id, v.venue_name, 
+       (SELECT AVG(ticket_price) 
+        FROM Event 
+        WHERE venue_id = v.venue_id) AS avg_ticket_price
+FROM Venue v;
+
+--2
+SELECT event_id, event_name
+FROM Event
+WHERE (SELECT SUM(num_tickets) 
+       FROM Booking 
+       WHERE Booking.event_id = Event.event_id) > (total_seats / 2);
+
+--3
+SELECT event_id, event_name,
+       (SELECT SUM(num_tickets) 
+        FROM Booking 
+        WHERE Booking.event_id = Event.event_id) AS total_tickets_sold
+FROM Event;
+
+--4
+SELECT customer_id, customer_name
+FROM Customer c
+WHERE NOT EXISTS (
+    SELECT * 
+    FROM Booking 
+    WHERE Booking.customer_id = c.customer_id
+);
+
+--5
+SELECT event_id, event_name
+FROM Event
+WHERE event_id NOT IN (
+    SELECT event_id 
+    FROM Booking
+);
+
+--6
+SELECT event_type, SUM(total_tickets_sold) AS total_tickets_sold
+FROM (
+    SELECT event_id, event_type,
+           (SELECT SUM(num_tickets) 
+            FROM Booking 
+            WHERE Booking.event_id = Event.event_id) AS total_tickets_sold
+    FROM Event
+) AS subquery
+GROUP BY event_type;
+
+--7
+SELECT event_id, event_name, ticket_price
+FROM Event
+WHERE ticket_price > (
+    SELECT AVG(ticket_price) 
+    FROM Event
+);
+
+--8
+SELECT customer_id, customer_name,
+       (SELECT SUM(total_cost) 
+        FROM Booking 
+        WHERE Booking.customer_id = Customer.customer_id) AS total_revenue_generated
+FROM Customer;
+
+--9
+SELECT customer_id, customer_name
+FROM Customer
+WHERE customer_id IN (
+    SELECT DISTINCT customer_id 
+    FROM Booking 
+    WHERE event_id IN (
+        SELECT event_id 
+        FROM Event 
+        WHERE venue_id = 'given_venue_id'
+    )
+);
+
+--10
+SELECT event_type, SUM(total_tickets_sold) AS total_tickets_sold
+FROM (
+    SELECT event_id, event_type,
+           (SELECT SUM(num_tickets) 
+            FROM Booking 
+            WHERE Booking.event_id = Event.event_id) AS total_tickets_sold
+    FROM Event
+) AS subquery
+GROUP BY event_type;
+
+--11
+SELECT customer_id, customer_name, 
+       DATE_FORMAT(booking_date, '%Y-%m') AS booking_month
+FROM Booking
+JOIN Customer ON Booking.customer_id = Customer.customer_id
+GROUP BY customer_id, booking_month;
+
+--12
+SELECT venue_id, venue_name,
+       (SELECT AVG(ticket_price) 
+        FROM Event 
+        WHERE Event.venue_id = Venue.venue_id) AS avg_ticket_price
+FROM Venue;
+
