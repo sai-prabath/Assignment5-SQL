@@ -75,11 +75,12 @@ INSERT INTO Event (event_id, event_name, event_date, event_time, venue_id, total
 (3, 'Event 3', '2024-04-12', '15:00:00', 3, 300, 250, 1800.00, 'Sports', NULL),
 (4, 'Event 4', '2024-04-13', '18:00:00', 4, 250, 150, 2200.00, 'Concert', NULL),
 (5, 'Event 5', '2024-04-14', '20:00:00', 5, 400, 350, 1200.00, 'Concert', NULL),
-(6, 'Event 6', '2024-04-15', '19:00:00', 6, 350, 300, 1600.00, 'Sports', NULL),
+(6, 'Event 6', '2024-04-15', '19:00:00', 6, 350, 300, 1600.00, 'Szports', NULL),
 (7, 'Event 7', '2024-04-16', '17:00:00', 7, 200, 100, 2500.00, 'Movie', NULL),
 (8, 'Event 8', '2024-04-17', '16:00:00', 8, 300, 200, 1700.00, 'Concert', NULL),
 (9, 'Event 9', '2024-04-18', '21:00:00', 9, 500, 450, 1900.00, 'Sports', NULL),
 (10, 'Event 10', '2024-04-19', '13:00:00', 10, 450, 400, 2100.00, 'Movie', NULL);
+(10, 'Event 10', '2024-04-19', '13:00:00', 1, 450, 400, 2100.00, 'Movie', NULL);
 
 -- Inserting sample records into the Customer table
 INSERT INTO Customer (customer_id, customer_name, email, phone_number, booking_id) VALUES
