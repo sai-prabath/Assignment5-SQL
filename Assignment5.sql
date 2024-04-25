@@ -271,8 +271,8 @@ FROM (
 GROUP BY event_type;
 
 --11
-SELECT customer_id, customer_name, 
-       DATE_FORMAT(booking_date, '%Y-%m') AS booking_month
+SELECT booking.customer_id, customer_name, 
+DATE_FORMAT(booking_date, '%Y-%m') AS booking_month
 FROM Booking
 JOIN Customer ON Booking.customer_id = Customer.customer_id
 GROUP BY customer_id, booking_month;
