@@ -1,35 +1,21 @@
+from datetime import datetime
 class Booking:
-    def __init__(self, event):
+    booking_id_counter = 0
+
+    def __init__(self, event, num_tickets, customers):
+        Booking.booking_id_counter += 1
+        self.booking_id = Booking.booking_id_counter
         self.event = event
-        self.num_tickets = 0
-        self.total_cost = 0
-
-    def calculate_booking_cost(self, num_tickets):
         self.num_tickets = num_tickets
-        self.total_cost = self.num_tickets * self.event.get_ticket_price()
+        self.customers = customers
+        self.total_cost = event.ticket_price * num_tickets
+        self.booking_date = datetime.now()
 
-    def book_tickets(self, num_tickets):
-        if self.event.book_tickets(num_tickets):
-            self.num_tickets += num_tickets
-            self.total_cost += num_tickets * self.event.get_ticket_price()
-            print(f"{num_tickets} tickets booked successfully!")
-            return True
-        else:
-            print("Failed to book tickets.")
-            return False
-
-    def cancel_booking(self, num_tickets):
-        if self.event.cancel_booking(num_tickets):
-            self.num_tickets -= num_tickets
-            self.total_cost -= num_tickets * self.event.get_ticket_price()
-            print(f"{num_tickets} tickets canceled successfully!")
-            return True
-        else:
-            print("Failed to cancel booking.")
-            return False
-
-    def get_available_no_of_tickets(self):
-        return self.event.get_available_seats()
-
-    def get_event_details(self):
-        return self.event.display_event_details()
+    def display_booking_details(self):
+        print(f"Booking ID: {self.booking_id}")
+        print("Event Details:")
+        self.event.display_event_details()
+        print(f"Number of Tickets: {self.num_tickets}")
+        print(f"Total Cost: {self.total_cost}")
+        print(f"Booking Date: {self.booking_date}")
+        self.customers.display_customer_details()
