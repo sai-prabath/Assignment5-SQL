@@ -96,4 +96,4 @@ class Event:
         print(f"Total Seats: {self.total_seats}")
         print(f"Available Seats: {self.available_seats}")
         print(f"Ticket Price: {self.ticket_price}")
-        print(f"Event Type: {self.event_type.value}")
+        print(f"Event Type: {self.event_type}")
