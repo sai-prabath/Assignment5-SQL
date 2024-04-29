@@ -2,13 +2,13 @@ from abc import ABC, abstractmethod
 
 class IEventServiceProvider(ABC):
     @abstractmethod
-    def create_event(self, event_name: str, date: str, time: str, venue: str, total_seats: int, ticket_price: float, event_type: str):
+    def create_event(self, event_name, event_date, event_time, venue_name, total_seats, ticket_price, event_type):
         pass
 
     @abstractmethod
-    def get_event_details(self):
+    def get_event_details(self, event):
         pass
 
     @abstractmethod
-    def get_available_no_of_tickets(self):
+    def get_available_no_of_tickets(self, event):
         pass
