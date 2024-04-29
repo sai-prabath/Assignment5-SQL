@@ -1,5 +1,8 @@
 class Event:
+    event_id_counter = 0
     def __init__(self, event_name, event_date, event_time, venue_name, total_seats, ticket_price, event_type):
+        Event.event_id_counter += 1
+        self.event_id = Event.event_id_counter
         self.event_name = event_name
         self.event_date = event_date
         self.event_time = event_time
@@ -10,6 +13,8 @@ class Event:
         self.event_type = event_type
 
     # Getter and Setter methods
+    def get_event_id(self):
+        return self.event_id
     def get_event_name(self):
         return self.event_name
 
