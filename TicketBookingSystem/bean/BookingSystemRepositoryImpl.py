@@ -3,7 +3,7 @@ from TicketBookingSystem.entity.concert import Concert
 from TicketBookingSystem.entity.sports import Sports
 from TicketBookingSystem.entity.booking import Booking
 from TicketBookingSystem.service.IBookingSystemRepository import IBookingSystemRepository
-
+from TicketBookingSystem.exception.exceptions import DatabaseOperationException
 class BookingSystemRepositoryImpl(IBookingSystemRepository):
 
     def __init__(self, db_conn):
@@ -38,8 +38,8 @@ class BookingSystemRepositoryImpl(IBookingSystemRepository):
             self.db_conn.commit()
             self.events[event.event_id] = event
             return event
-        except:
-            print(f"Error creating event: {None}")
+        except Exception as e:
+            raise DatabaseOperationException(f"Error creating event: {e}")
 
     def getEventDetails(self) :
         try:
@@ -48,8 +48,9 @@ class BookingSystemRepositoryImpl(IBookingSystemRepository):
             events = cursor.fetchall()
             cursor.close()
             return events
-        except:
-            print(f"Error fetching event details: {None}")
+        except Exception as e:
+            raise DatabaseOperationException(f"Error fetching event details: {e}")
+
 
     def getAvailableNoOfTickets(self) :
         try:
@@ -59,8 +60,8 @@ class BookingSystemRepositoryImpl(IBookingSystemRepository):
             cursor.close()
             print(f"total available tickets ={total_available_tickets}")
             return total_available_tickets
-        except:
-            print(f"Error fetching available tickets: {None}")
+        except Exception as e:
+            raise DatabaseOperationException(f"Error fetching available tickets: {e}")
 
     def calculate_booking_cost(self, num_tickets, ticket_price):
         return num_tickets * ticket_price
@@ -89,8 +90,8 @@ class BookingSystemRepositoryImpl(IBookingSystemRepository):
                 return booking
             else:
                 print("Not enough available seats for booking")
-        except:
-            ProcessLookupError(f"Error booking tickets: {None}")
+        except Exception as e:
+            raise DatabaseOperationException(f"Error booking tickets: {e}")
 
     def cancel_booking(self, booking_id):
         try:
@@ -107,8 +108,8 @@ class BookingSystemRepositoryImpl(IBookingSystemRepository):
                 cursor.close()
             else:
                 print("Booking ID not found")
-        except:
-            print(f"Error cancelling booking: {None}")
+        except Exception as e:
+            raise DatabaseOperationException(f"Error cancelling booking: {None}")
 
     def get_booking_details(self, booking_id):
         try:
@@ -117,5 +118,5 @@ class BookingSystemRepositoryImpl(IBookingSystemRepository):
             booking_details = cursor.fetchone()
             cursor.close()
             return booking_details
-        except:
-            print(f"Error fetching booking details: {None}")
+        except Exception as e:
+            raise DatabaseOperationException(f"Error fetching booking details: {None}")

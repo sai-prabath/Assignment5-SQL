@@ -1,6 +1,8 @@
 
 from TicketBookingSystem.bean.BookingSystemRepositoryImpl import BookingSystemRepositoryImpl
 from TicketBookingSystem.entity.customer import Customer
+from TicketBookingSystem.exception.exceptions import EventNotFoundException
+from TicketBookingSystem.exception.exceptions import InvalidBookingIDException
 
 class TicketBookingSystem:
     def __init__(self, db_conn):
@@ -38,9 +40,8 @@ class TicketBookingSystem:
         event_id = int(input("Enter event ID to book tickets: "))
         try:
             event = self.booking_system_repository.events[event_id]
-        except:
-            print("event id not found")
-            return None
+        except Exception as e:
+            raise EventNotFoundException(f"event id not found : {e}")
 
         num_tickets = int(input("Enter number of tickets to book: "))
 
